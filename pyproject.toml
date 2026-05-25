@@ -1,0 +1,18 @@
+[project]
+name = "agent-harness-1"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.104.1",
+    "httpx>=0.28.1",
+    "python-dotenv>=1.2.2",
+    "python-slugify>=8.0.4",
+    "pyyaml>=6.0.3",
+    "trafilatura>=2.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.1",
+]
