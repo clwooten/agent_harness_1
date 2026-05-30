@@ -11,12 +11,19 @@ Updated: 2026-05-29 (end of Phase 2)
 
 ## Next action
 
-Build Phase 3: `fetch_lib.py` + `worker.py`.
+Build Phase 3: `fetch_lib.py` + `worker.py` + two notebooks.
 
 - `fetch_lib.py`: `fetch_url(url) -> (title, content)` via httpx + trafilatura; `load_local(path) -> (title, content)` for .md files.
 - `worker.py`: polls `queue.json` every 2s, claims next pending task, dispatches by `task_type`, calls Haiku with **tool use** (`record_summary` tool, forced `tool_choice`) for structured output, writes `processed/<slug>.md` with YAML frontmatter, marks done/failed.
+- `notebooks/03a_fetch_smoke_test.ipynb` — try `fetch_url` on a blog, Wikipedia, a news index, a dead URL.
+- `notebooks/03b_queue_inspector.ipynb` — re-runnable cells for watching `queue.json` state while the worker runs.
 
 Checkpoint: run planner once, run worker in another terminal, watch with `watch -n 1 'jq . queue.json'`, files appear in `processed/`.
+
+### Decisions locked for Phase 3
+
+- **Digest task**: worker runs it when claimed, even if sibling tasks aren't done yet. If it runs early it'll digest only what's currently `done`. Ordering/dependency lesson saved for Phase 5.
+- **Worker logging**: print only — no separate `logs/worker.log` write inside `worker.py`. Harness in Phase 4 will be the one redirecting subprocess stdout/stderr to log files.
 
 ## Inbox at handoff time
 
